@@ -28,7 +28,6 @@ def create_chrome_options():
     )
     return options
 
-
 @lru_cache(maxsize=1000)
 def get_group_name_cached(link):
     if pd.isna(link) or "chat.whatsapp.com" not in str(link):
@@ -71,9 +70,9 @@ def get_group_name_cached(link):
     except Exception as e:
         return link, f"خطأ: {str(e)}"
     finally:
+        time.sleep(random.uniform(1, 2))  # <-- تأخير هنا بين كل محاولة وأخرى
         if driver:
             driver.quit()
-
 
 def load_previous_results():
     """تحميل النتائج السابقة من أحدث ملف مؤقت"""
@@ -88,7 +87,6 @@ def load_previous_results():
         return dict(zip(temp_df["whatsAppLink"], temp_df["Groups Name"])), last_count
     except:
         return None, 0
-
 
 def main(start_from=0):
     file_path = "groups name.xlsx"
@@ -172,7 +170,6 @@ def main(start_from=0):
     print(f"\n\n✅ تم الانتهاء بنجاح!")
     print(f"📊 النتائج النهائية محفوظة في: {final_filename}")
     print(f"⏱️ الوقت الإجمالي: {(time.time() - start_time) / 60:.2f} دقيقة")
-
 
 if __name__ == "__main__":
     # ابدأ من البداية
